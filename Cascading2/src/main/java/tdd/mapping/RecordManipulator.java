@@ -30,5 +30,29 @@ public class RecordManipulator {
 		return flowConnector.connect(source,sink,assembly);
 		
 	}
+	
+//	
+//	Pipe A consists of fields, A, B, C, D, and E.  A resulting output stream is to contain data where:
+//
+//
+//		String A = "NONE";
+//		Integer B = 10;
+//		String C = "VALID";
+//		Integer D >= 100; 
+//		Long E = 1L;
+//
+//
+//		Cascading Expression Filter
+//		 
+//		A Cascading Expression Filter involving multiple inputs must have the Field names and data types explicitly defined in Object arrays, resembling the following:
+//
+//
+//		Expression Filter myFilter = 
+//		new ExpressionFilter("a.equals("NONE") && b.equals(10) " +
+//		                      "&& c.equals("VALID") && (d >= 100) " +
+//		                      "&& e.equals(1L), new String[]{"a", "b",
+//		                      "c", "d", "e"}, new Class[]{String.class, 
+//		                      Integer.class, String.class, Integer.class,
+//		                      Long.class});
 
 }
