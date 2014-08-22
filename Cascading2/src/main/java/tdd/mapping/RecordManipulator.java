@@ -32,15 +32,24 @@ public class RecordManipulator {
 	}
 
 	public static Flow<?> filterRecordsUsingCustomFilter(Tap<?, ?, ?> source,
-			Tap<?, ?, ?> sink) {
+			Tap<?, ?, ?> sink,String country) {
 		
 		HadoopFlowConnector connector = new HadoopFlowConnector();
 		Pipe assembly = new Pipe("filterSplitter");
 		
 		// first i got to write a splitter function to line the fields
 		// once you get the right tuple, pass that tuple inside a filter operation
-		SplitterFunction splitter = new SplitterFunction();
+		Fields fields = new Fields(
+              "no","name","sal","dept","country","city","date");
+		SplitterFunction splitter = new SplitterFunction(fields);
 		assembly = new Each(assembly, new Fields("line"),splitter);
+	    
+		// now write the filter opteration , filter for country colombia
+		CountryFilter countryFilter = new CountryFilter(country);
+		assembly = new Each(assembly,new Fields("country"),countryFilter);
+		
+		FieldJoiner fieldJoiner = new FieldJoiner(",");
+		assembly = new Each(assembly, fieldJoiner);
 		return connector.connect(source,sink,assembly);
 		
 	}
