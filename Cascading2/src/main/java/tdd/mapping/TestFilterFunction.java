@@ -12,7 +12,7 @@ import cascading.tap.hadoop.Hfs;
 import cascading.tuple.Fields;
 
 import com.regex.Prop;
-import com.sun.xml.bind.v2.runtime.output.InPlaceDOMOutput;
+
 
 public class TestFilterFunction {
 
@@ -39,7 +39,7 @@ public class TestFilterFunction {
 	}
 	
 	
-	@Test
+	//@Test
 	public void test_country_filter_using_custom_filter_and_custom_function(){
 		
 
@@ -58,7 +58,8 @@ public class TestFilterFunction {
 		
 	}
 	
-	
+	@Test
+	public void t1(){}
 	
 	
 }
