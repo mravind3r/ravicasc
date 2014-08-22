@@ -30,6 +30,23 @@ public class RecordManipulator {
 		return flowConnector.connect(source,sink,assembly);
 		
 	}
+
+	public static Flow<?> filterRecordsUsingCustomFilter(Tap<?, ?, ?> source,
+			Tap<?, ?, ?> sink) {
+		
+		HadoopFlowConnector connector = new HadoopFlowConnector();
+		Pipe assembly = new Pipe("filterSplitter");
+		
+		// first i got to write a splitter function to line the fields
+		// once you get the right tuple, pass that tuple inside a filter operation
+		SplitterFunction splitter = new SplitterFunction();
+		assembly = new Each(assembly, new Fields("line"),splitter);
+		return connector.connect(source,sink,assembly);
+		
+	}
+	
+
+	
 	
 //	
 //	Pipe A consists of fields, A, B, C, D, and E.  A resulting output stream is to contain data where:

@@ -12,11 +12,12 @@ import cascading.tap.hadoop.Hfs;
 import cascading.tuple.Fields;
 
 import com.regex.Prop;
+import com.sun.xml.bind.v2.runtime.output.InPlaceDOMOutput;
 
 public class TestFilterFunction {
 
 	// filter every employee record from country = columbia
-	@Test
+	//@Test
 	public void test_country_filter(){
 		
 		String ipFile = "/home/ravi/workspace/Cascading2/src/main/java/tdd/mapping/source";
@@ -36,6 +37,27 @@ public class TestFilterFunction {
 		AssertUtil.isContentSame(expectedFile, actualFile);
 		
 	}
+	
+	
+	@Test
+	public void test_country_filter_using_custom_filter_and_custom_function(){
+		
+
+		String ipFile = "/home/ravi/workspace/Cascading2/src/main/java/tdd/mapping/source";
+		String expectedFile = "/home/ravi/workspace/Cascading2/src/main/java/tdd/mapping/exp1";
+		String actualFile = Prop.opdir+"/copy/part-00000";
+		
+		Tap<?,?,?> source = new Hfs(new TextLine(new Fields("line")), ipFile);
+		Tap<?,?,?> sink = new Hfs(new TextLine(),Prop.opdir+"/copy",SinkMode.REPLACE);
+		
+		//pass data via splitter -function operation, filter operation
+		// here we shall split inside the custom function hence not passing regex
+		Flow<?> flow = RecordManipulator.filterRecordsUsingCustomFilter(source,sink);
+		flow.complete();
+		AssertUtil.isContentSame(expectedFile, actualFile);
+		
+	}
+	
 	
 	
 	
