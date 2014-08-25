@@ -1,6 +1,7 @@
 package com.revesion;
 
 import cascading.flow.hadoop.HadoopFlowConnector;
+import cascading.operation.Debug;
 import cascading.operation.aggregator.Average;
 import cascading.operation.aggregator.Count;
 import cascading.operation.aggregator.Max;
@@ -38,12 +39,15 @@ public class SumAllsals {
 		
 		Pipe assembly = new Pipe("salsums");
 		assembly = new Each(assembly,new Fields("line"),splitter);
-		assembly = new GroupBy(assembly,Fields.NONE);
+		
+		assembly = new GroupBy(assembly,new Fields("dept"));
+		
 	//	assembly = new Every(assembly,new Fields("sal"),new Sum());
 	//	assembly = new Every(assembly,new Fields("sal"),new Count());
 	//	assembly = new Every(assembly,new Fields("sal"),new Average());
 		
 		assembly = new Every(assembly,new Fields("sal"),new Max(),Fields.ALL);
+		assembly = new Each(assembly, new Debug());
 		
 		
 		

@@ -2,6 +2,7 @@ package tdd.mapping;
 
 import cascading.flow.Flow;
 import cascading.flow.hadoop.HadoopFlowConnector;
+import cascading.operation.Debug;
 import cascading.operation.expression.ExpressionFilter;
 import cascading.operation.regex.RegexSplitter;
 import cascading.operation.text.FieldJoiner;
@@ -43,7 +44,7 @@ public class RecordManipulator {
               "no","name","sal","dept","country","city","date");
 		SplitterFunction splitter = new SplitterFunction(fields);
 		assembly = new Each(assembly, new Fields("line"),splitter);
-	    
+	    assembly = new Each(assembly, new Debug());
 		// now write the filter opteration , filter for country colombia
 		CountryFilter countryFilter = new CountryFilter(country);
 		assembly = new Each(assembly,new Fields("country"),countryFilter);
